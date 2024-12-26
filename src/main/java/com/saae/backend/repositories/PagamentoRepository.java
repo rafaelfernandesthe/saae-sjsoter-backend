@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.saae.backend.entities.Pagamento;
+import com.saae.backend.entities.enums.MetodoPagamento;
 
 @Repository
 public interface PagamentoRepository extends JpaRepository<Pagamento, Long> {
@@ -14,5 +15,5 @@ public interface PagamentoRepository extends JpaRepository<Pagamento, Long> {
     List<Pagamento> findByFaturaId(Long faturaId);
 
     // Verificar pagamentos realizados por um método de pagamento
-    List<Pagamento> findByMetodoPagamento(String metodoPagamento);
+    List<Pagamento> findByMetodo(MetodoPagamento metodoPagamento);
 }

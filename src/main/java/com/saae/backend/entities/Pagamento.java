@@ -3,6 +3,9 @@ package com.saae.backend.entities;
 
 import java.util.Date;
 
+import com.saae.backend.entities.enums.MetodoPagamento;
+import com.saae.backend.entities.enums.StatusPagamento;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -78,13 +81,4 @@ public class Pagamento {
         this.status = status;
     }
 
-    // Enum para o método de pagamento
-    public enum MetodoPagamento {
-        PIX, BOLETO, CARTAO
-    }
-
-    // Enum para o status do pagamento
-    public enum StatusPagamento {
-        CONCLUIDO, PENDENTE
-    }
 }

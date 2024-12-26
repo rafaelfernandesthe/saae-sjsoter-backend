@@ -2,6 +2,8 @@ package com.saae.backend.entities;
 
 import java.util.Date;
 
+import com.saae.backend.entities.enums.StatusImovel;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -23,7 +25,7 @@ public class Imovel {
     private double consumoMensal; // Consumo de água em m³
 
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private StatusImovel status;
 
     private Date dataCriacao;
 
@@ -62,11 +64,11 @@ public class Imovel {
         this.consumoMensal = consumoMensal;
     }
 
-    public Status getStatus() {
+    public StatusImovel getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(StatusImovel status) {
         this.status = status;
     }
 
@@ -86,8 +88,4 @@ public class Imovel {
         this.ultimoPagamento = ultimoPagamento;
     }
 
-    // Enum para o Status
-    public enum Status {
-        ATIVO, INATIVO
-    }
 }

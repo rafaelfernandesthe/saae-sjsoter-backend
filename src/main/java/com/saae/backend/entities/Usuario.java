@@ -1,20 +1,30 @@
 package com.saae.backend.entities;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.saae.backend.entities.enums.TipoUsuario;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 @Entity
 public class Usuario implements UserDetails {
-
 
 	private static final long serialVersionUID = -6690265995004458981L;
 
@@ -140,8 +150,6 @@ public class Usuario implements UserDetails {
 	public void setDataCriacao(Date dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
-	
-	
 
 	public boolean isAtivo() {
 		return ativo;
@@ -150,11 +158,5 @@ public class Usuario implements UserDetails {
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
 	}
-
-
-
-	// Enum para os tipos de usuário
-	public enum TipoUsuario {
-		ADMIN, PROPRIETARIO, ATENDENTE
-	}
+	
 }

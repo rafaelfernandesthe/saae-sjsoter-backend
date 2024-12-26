@@ -3,6 +3,8 @@ package com.saae.backend.entities;
 
 import java.util.Date;
 
+import com.saae.backend.entities.enums.StatusFatura;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -87,8 +89,4 @@ public class Fatura {
         this.metodoPagamento = metodoPagamento;
     }
 
-    // Enum para o status da fatura
-    public enum StatusFatura {
-        PENDENTE, PAGO, VENCIDO
-    }
 }
