@@ -34,7 +34,7 @@ public class OrdemServico {
 	private LocalDateTime dataExecucao;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "fk_id_conta", columnDefinition = "ordemServicos")
+	@JoinColumn(name = "fk_id_conta", nullable = false)
 	private Conta conta;
 
 	@Enumerated(EnumType.STRING)

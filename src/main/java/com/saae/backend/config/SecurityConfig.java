@@ -36,14 +36,15 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
-                    .requestMatchers("/auth/**").permitAll()  // Permite acessar sem autenticação
+                    .requestMatchers("/auth/**", "/h2-console/**").permitAll()  // Permite acessar sem autenticação
                     .anyRequest().authenticated()  // Exige autenticação para qualquer outra requisição
             )
             .exceptionHandling(exceptionHandling ->
                 exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint) // Ponto de entrada para erros de autenticação
             )
-            .addFilterBefore(jwtRequestFilter(), org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class); // Filtro JWT antes da autenticação
-
+            .addFilterBefore(jwtRequestFilter(), org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class) // Filtro JWT antes da autenticação
+            .headers().frameOptions().disable();
+            
         return http.build();  // Retorna o filtro de segurança configurado
     }
     

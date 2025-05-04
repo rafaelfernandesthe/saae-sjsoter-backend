@@ -51,14 +51,14 @@ public class Imovel {
 	@Enumerated(EnumType.STRING)
 	private StatusImovel status;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "imovel")
+	@OneToMany(fetch = FetchType.LAZY)
 	private List<Conta> contas;
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "imoveis")
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "imovel_beneficio", joinColumns = @JoinColumn(name = "fk_id_imovel"), inverseJoinColumns = @JoinColumn(name = "fk_id_beneficio"))
 	private List<Beneficio> beneficios;
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "imoveis")
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "imovel_taxa_imposto", joinColumns = @JoinColumn(name = "fk_id_imovel"), inverseJoinColumns = @JoinColumn(name = "fk_id_taxa_imposto"))
 	private List<TaxaImposto> taxaImpostos;
 

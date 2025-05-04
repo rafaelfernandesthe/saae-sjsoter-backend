@@ -26,7 +26,7 @@ public class Pagamento {
 	private Long id;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "fk_id_conta", columnDefinition = "pagamentos")
+	@JoinColumn(name = "fk_id_conta")
 	private Conta conta;
 
 	@Enumerated(EnumType.STRING)

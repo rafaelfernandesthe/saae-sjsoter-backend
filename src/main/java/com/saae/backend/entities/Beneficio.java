@@ -39,7 +39,7 @@ public class Beneficio {
 
 	private StatusBeneficio status;
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "beneficios")
+	@ManyToMany(fetch = FetchType.LAZY)
 	private List<Imovel> imoveis;
 
 }

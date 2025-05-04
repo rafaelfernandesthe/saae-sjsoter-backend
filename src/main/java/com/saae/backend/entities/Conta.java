@@ -32,7 +32,7 @@ public class Conta {
 	private Long id;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "fk_id_imovel", referencedColumnName = "contas")
+	@JoinColumn(name = "fk_id_imovel", nullable = false)
 	private Imovel imovel;
 
 	private BigDecimal valorTotal;
@@ -50,9 +50,9 @@ public class Conta {
 	@Enumerated(EnumType.STRING)
 	private StatusFatura status;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "conta")
+	@OneToMany(fetch = FetchType.LAZY)
 	private List<Pagamento> pagamentos;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "conta")
+	@OneToMany(fetch = FetchType.LAZY)
 	private List<OrdemServico> ordemServicos;
 }
