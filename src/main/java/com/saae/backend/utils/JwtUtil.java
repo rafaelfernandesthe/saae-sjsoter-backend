@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import com.saae.backend.entities.Usuario;
@@ -46,9 +47,9 @@ public class JwtUtil {
 	}
 
 	// Verifica se o token é válido
-	public boolean validarToken(String token, Usuario usuario) {
+	public boolean validarToken(String token, UserDetails usuario) {
 		final String email = extrairEmail(token);
-		return (email.equals(usuario.getEmail()) && !isTokenExpirado(token));
+		return (email.equals(usuario.getUsername()) && !isTokenExpirado(token));
 	}
 
 	// Extrai as claims (informações) do token

@@ -1,7 +1,9 @@
 package com.saae.backend.entities;
 
-import com.saae.backend.entities.enums.MetodoPagamento;
-import com.saae.backend.entities.enums.StatusPagamento;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import com.saae.backend.entities.enums.StatusOrdemServico;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -18,21 +20,24 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "pagamento")
-public class Pagamento {
+@Table(name = "ordem_servico")
+public class OrdemServico {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	private LocalDate dataGeracao;
+
+	private LocalDate dataPrevistaExecucao;
+	
+	private LocalDateTime dataExecucao;
+
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "fk_id_conta", columnDefinition = "pagamentos")
+	@JoinColumn(name = "fk_id_conta", columnDefinition = "ordemServicos")
 	private Conta conta;
 
 	@Enumerated(EnumType.STRING)
-	private MetodoPagamento metodo;
-
-	@Enumerated(EnumType.STRING)
-	private StatusPagamento status;
+	private StatusOrdemServico status;
 
 }

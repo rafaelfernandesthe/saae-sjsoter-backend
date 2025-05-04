@@ -1,30 +1,33 @@
 package com.saae.backend.security;
 
-import com.saae.backend.entities.Usuario;
-import com.saae.backend.services.UsuarioService;
-import com.saae.backend.utils.JwtUtil;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.io.IOException;
+import java.util.Optional;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import java.io.IOException;
-import java.util.Optional;
+import com.saae.backend.utils.JwtUtil;
+
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private JwtUtil jwtUtil;
-
-    @Autowired
-    private UsuarioService usuarioService;
+    private final JwtUtil jwtUtil;
+    private final UserDetailsService userDetailsService;
+    
+    public JwtRequestFilter(JwtUtil jwtUtil, UserDetailsService userDetailsService) {
+        this.jwtUtil = jwtUtil;
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -45,7 +48,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         // Se o nome de usuário (email) foi extraído e o contexto de segurança ainda não contém autenticação
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             // Buscar o usuário no banco de dados
-            Optional<Usuario> usuarioOptional = usuarioService.obterUsuarioPorEmail(username);
+            Optional<UserDetails> usuarioOptional = Optional.of(userDetailsService.loadUserByUsername(username));
 
             if (usuarioOptional.isPresent()) {
                 var usuario = usuarioOptional.get();
