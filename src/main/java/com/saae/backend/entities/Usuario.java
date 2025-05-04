@@ -1,8 +1,8 @@
 package com.saae.backend.entities;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,13 +17,19 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
 @Entity
+@Table(name = "usuario")
 public class Usuario implements UserDetails {
 
 	private static final long serialVersionUID = -6690265995004458981L;
@@ -34,6 +40,12 @@ public class Usuario implements UserDetails {
 
 	@NotBlank(message = "Nome não pode ser vazio")
 	private String nome;
+	
+	@NotBlank(message = "CPF não pode ser vazio")
+	private String cpf;
+	
+	@NotBlank(message = "Telefone não pode ser vazio")
+	private String telefone;
 
 	@Email(message = "Email inválido")
 	@NotBlank(message = "Email não pode ser vazio")
@@ -47,26 +59,22 @@ public class Usuario implements UserDetails {
 	private TipoUsuario tipo;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataCriacao;
+	private LocalDateTime dataCriacao;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private LocalDateTime dataUltimoLogin;
 
 	private boolean ativo;
 	
-	public Usuario() {
-		// Construtor padrão
-	}
-
 	@PrePersist
 	public void prePersist() {
 		if (dataCriacao == null) {
-			dataCriacao = new Date(); // Define a data de criação antes de persistir
+			dataCriacao = LocalDateTime.now(); 
 		}
 	}
 
-	// Implementação do método getAuthorities() da interface UserDetails
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// Retorna as permissões do usuário. Aqui, um exemplo simples com um único
-		// papel.
 		return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + tipo.name()));
 	}
 
@@ -98,65 +106,6 @@ public class Usuario implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true; // O usuário está habilitado
-	}
-	
-
-
-	// Getters e Setters
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-
-	public TipoUsuario getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(TipoUsuario tipo) {
-		this.tipo = tipo;
-	}
-
-	public Date getDataCriacao() {
-		return dataCriacao;
-	}
-
-	public void setDataCriacao(Date dataCriacao) {
-		this.dataCriacao = dataCriacao;
-	}
-
-	public boolean isAtivo() {
-		return ativo;
-	}
-
-	public void setAtivo(boolean ativo) {
-		this.ativo = ativo;
 	}
 	
 }

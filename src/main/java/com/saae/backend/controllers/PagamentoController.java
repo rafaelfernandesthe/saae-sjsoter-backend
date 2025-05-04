@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/pagamentos")
+@RequestMapping("/pagamentos")
 public class PagamentoController {
 
     @Autowired

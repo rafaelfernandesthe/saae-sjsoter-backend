@@ -11,9 +11,7 @@ import com.saae.backend.entities.enums.MetodoPagamento;
 @Repository
 public interface PagamentoRepository extends JpaRepository<Pagamento, Long> {
 
-    // Métodos personalizados de consulta, se necessário
-    List<Pagamento> findByFaturaId(Long faturaId);
+    List<Pagamento> findByContaId(Long contaId);
 
-    // Verificar pagamentos realizados por um método de pagamento
     List<Pagamento> findByMetodo(MetodoPagamento metodoPagamento);
 }
