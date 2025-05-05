@@ -50,9 +50,9 @@ public class Conta {
 	@Enumerated(EnumType.STRING)
 	private StatusFatura status;
 	
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "conta")
 	private List<Pagamento> pagamentos;
 	
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "conta")
 	private List<OrdemServico> ordemServicos;
 }

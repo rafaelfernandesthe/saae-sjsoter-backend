@@ -39,7 +39,7 @@ public class TaxaImposto {
 
 	private StatusTaxaImposto status;
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "taxasImpostos")
 	private List<Imovel> imoveis;
 
 }
