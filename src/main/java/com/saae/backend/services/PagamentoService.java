@@ -17,22 +17,22 @@ public class PagamentoService {
     private PagamentoRepository pagamentoRepository;
 
     // Listar todos os pagamentos
-    public List<Pagamento> listarPagamentos() {
+    public List<Pagamento> listar() {
         return pagamentoRepository.findAll();
     }
 
     // Obter pagamento por ID
-    public Optional<Pagamento> obterPagamentoPorId(Long id) {
+    public Optional<Pagamento> obterPorId(Long id) {
         return pagamentoRepository.findById(id);
     }
 
     // Criar um novo pagamento
-    public Pagamento criarPagamento(Pagamento pagamento) {
+    public Pagamento criar(Pagamento pagamento) {
         return pagamentoRepository.save(pagamento);
     }
 
     // Atualizar um pagamento existente
-    public Pagamento atualizarPagamento(Long id, Pagamento pagamento) {
+    public Pagamento atualizar(Long id, Pagamento pagamento) {
         if (pagamentoRepository.existsById(id)) {
             pagamento.setId(id);
             return pagamentoRepository.save(pagamento);
@@ -41,7 +41,7 @@ public class PagamentoService {
     }
 
     // Deletar pagamento por ID
-    public boolean deletarPagamento(Long id) {
+    public boolean deletar(Long id) {
         if (pagamentoRepository.existsById(id)) {
             pagamentoRepository.deleteById(id);
             return true;

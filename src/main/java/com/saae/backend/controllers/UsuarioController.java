@@ -29,21 +29,21 @@ public class UsuarioController {
     // Endpoint para listar todos os usuários
     @GetMapping
     public ResponseEntity<Page<Usuario>> listarUsuarios(Pageable pageable, @RequestParam(required = false) String nome) {
-    	Page<Usuario> usuarios = usuarioService.listarUsuarios(pageable, nome);
+    	Page<Usuario> usuarios = usuarioService.listar(pageable, nome);
         return ResponseEntity.ok(usuarios);
     }
 
     // Endpoint para obter um usuário por ID
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> obterUsuario(@PathVariable Long id) {
-        Optional<Usuario> usuario = usuarioService.obterUsuarioPorId(id);
+        Optional<Usuario> usuario = usuarioService.obterPorId(id);
         return usuario.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // Endpoint para criar um novo usuário
     @PostMapping
     public ResponseEntity<Usuario> criarUsuario(@RequestBody Usuario usuario) {
-        Usuario novoUsuario = usuarioService.criarUsuario(usuario);
+        Usuario novoUsuario = usuarioService.criar(usuario);
         usuarioService.limparCache();
         return ResponseEntity.status(201).body(novoUsuario);
     }
@@ -51,13 +51,13 @@ public class UsuarioController {
     // Endpoint para atualizar um usuário existente
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> atualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
-        Usuario usuarioAtualizado = usuarioService.atualizarUsuario(id, usuario);
+        Usuario usuarioAtualizado = usuarioService.atualizar(id, usuario);
         return usuarioAtualizado != null ? ResponseEntity.ok(usuarioAtualizado) : ResponseEntity.notFound().build();
     }
 
     // Endpoint para deletar um usuário
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarUsuario(@PathVariable Long id) {
-        return usuarioService.deletarUsuario(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+        return usuarioService.deletar(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }

@@ -1,12 +1,15 @@
 package com.saae.backend.services;
 
-import com.saae.backend.entities.Usuario;
-import com.saae.backend.repositories.UsuarioRepository;
-import com.saae.backend.utils.JwtUtil;
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.saae.backend.entities.Usuario;
+import com.saae.backend.repositories.UsuarioRepository;
+import com.saae.backend.utils.JwtUtil;
 
 @Service
 public class AuthService {
@@ -20,14 +23,6 @@ public class AuthService {
     @Autowired
     private BCryptPasswordEncoder encoder;  // Instância do encoder injetada
 
-    // Registrar novo usuário
-    public String registrarUsuario(Usuario usuario) {
-        // Criptografar a senha
-        usuario.setSenha(encoder.encode(usuario.getSenha()));
-        usuario = usuarioRepository.save(usuario);
-        return jwtUtil.gerarToken(usuario);
-    }
-
     // Autenticar e gerar JWT
     public String autenticarUsuario(String email, String senha) {
         // Buscar o usuário pelo email
@@ -36,7 +31,8 @@ public class AuthService {
 
         // Verificar se a senha corresponde à senha armazenada
         if (encoder.matches(senha, usuario.getSenha()) || senha.equals(usuario.getSenha())) {
-            // Gerar o token JWT se as credenciais forem válidas
+        	usuario.setDataUltimoLogin(LocalDateTime.now());
+        	usuarioRepository.save(usuario);
             return jwtUtil.gerarToken(usuario);
         }
 

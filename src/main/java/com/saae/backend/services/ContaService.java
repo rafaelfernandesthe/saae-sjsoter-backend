@@ -34,28 +34,23 @@ public class ContaService {
     @Autowired
     private ImovelService imovelRepository;
 
-    // Listar todas as contas
-    public List<Conta> listarContas() {
+    public List<Conta> listar() {
         return contaRepository.findAll();
     }
 
-    // Listar as contas de um imóvel
-    public List<Conta> listarContasPorImovel(Long imovelId) {
+    public List<Conta> listarPorImovel(Long imovelId) {
         return contaRepository.findByImovelId(imovelId);
     }
 
-    // Obter uma conta por ID
-    public Optional<Conta> obterContaPorId(Long id) {
+    public Optional<Conta> obterPorId(Long id) {
         return contaRepository.findById(id);
     }
 
-    // Criar uma nova conta
-    public Conta criarConta(Conta conta) {
+    public Conta criar(Conta conta) {
         return contaRepository.save(conta);
     }
 
-    // Atualizar uma conta existente
-    public Conta atualizarConta(Long id, Conta conta) {
+    public Conta atualizar(Long id, Conta conta) {
         if (contaRepository.existsById(id)) {
             conta.setId(id);
             return contaRepository.save(conta);
@@ -63,8 +58,7 @@ public class ContaService {
         return null;
     }
 
-    // Deletar uma conta
-    public boolean deletarConta(Long id) {
+    public boolean deletar(Long id) {
         if (contaRepository.existsById(id)) {
         	contaRepository.deleteById(id);
             return true;
@@ -113,7 +107,7 @@ public class ContaService {
 		while(true) {
 			
 			log.info("INICIO - Gerando contas para o mês: {} pagina: {} ", mesReferencia, pageable.getPageNumber());
-			var imoveis = imovelRepository.listarImoveis(pageable, null, null, null, null, null, null);
+			var imoveis = imovelRepository.listar(pageable, null, null, null, null, null, null);
 			
 			var contasList = imoveis.stream().parallel().map(imovel -> {
 				Conta conta = new Conta();

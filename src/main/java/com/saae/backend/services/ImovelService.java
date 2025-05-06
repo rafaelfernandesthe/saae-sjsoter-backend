@@ -22,7 +22,7 @@ public class ImovelService {
 	private ImovelRepository imovelRepository;
 
 	@Cacheable(value = "imoveisPaginados", key = "T(String).valueOf(#pageable?.pageNumber) + '-' + " + "T(String).valueOf(#pageable?.pageSize) + '-' + " + "T(String).valueOf(#tipo ?: '') + '-' + " + "T(String).valueOf(#rua ?: '') + '-' + " + "T(String).valueOf(#numero ?: '') + '-' + " + "T(String).valueOf(#bairro ?: '') + '-' + " + "T(String).valueOf(#proprietario ?: '') + '-' + " + "T(String).valueOf(#cpfCnpj ?: '')")
-	public Page<Imovel> listarImoveis(Pageable pageable, String tipo, String rua, String numero, String bairro,
+	public Page<Imovel> listar(Pageable pageable, String tipo, String rua, String numero, String bairro,
 			String proprietario, String cpfCnpj) {
 		return imovelRepository.findAll((root, query, criteriaBuilder) -> {
 			var predicates = new ArrayList<Predicate>();
@@ -50,15 +50,15 @@ public class ImovelService {
 		}, pageable);
 	}
 
-	public Optional<Imovel> obterImovelPorId(Long id) {
+	public Optional<Imovel> obterPorId(Long id) {
 		return imovelRepository.findById(id);
 	}
 
-	public Imovel criarImovel(Imovel imovel) {
+	public Imovel criar(Imovel imovel) {
 		return imovelRepository.save(imovel);
 	}
 
-	public Imovel atualizarImovel(Long id, Imovel imovel) {
+	public Imovel atualizar(Long id, Imovel imovel) {
 		if (imovelRepository.existsById(id)) {
 			imovel.setId(id);
 			return imovelRepository.save(imovel);
@@ -66,7 +66,7 @@ public class ImovelService {
 		return null;
 	}
 
-	public boolean deletarImovel(Long id) {
+	public boolean deletar(Long id) {
 		if (imovelRepository.existsById(id)) {
 			imovelRepository.deleteById(id);
 			return true;

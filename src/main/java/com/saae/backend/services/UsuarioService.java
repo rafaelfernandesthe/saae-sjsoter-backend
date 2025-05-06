@@ -45,7 +45,7 @@ public class UsuarioService implements UserDetailsService {
 
 	// Listar todos os usuários
 	@Cacheable(value = "usuariosPaginados", key = "T(String).valueOf(#pageable.pageNumber) + '-' + T(String).valueOf(#pageable.pageSize) + '-' + " + "T(String).valueOf(#nome ?: '')")
-	public Page<Usuario> listarUsuarios(Pageable pageable, String nome) {
+	public Page<Usuario> listar(Pageable pageable, String nome) {
 		return usuarioRepository.findAll((root, query, criteriaBuilder) -> {
 			var predicates = new ArrayList<Predicate>();
 			if (StringUtils.hasText(nome)) {
@@ -57,17 +57,17 @@ public class UsuarioService implements UserDetailsService {
 	}
 
 	// Obter um usuário por ID
-	public Optional<Usuario> obterUsuarioPorId(Long id) {
+	public Optional<Usuario> obterPorId(Long id) {
 		return usuarioRepository.findById(id);
 	}
 
 	// Obter um usuário por email (para autenticação)
-	public Optional<Usuario> obterUsuarioPorEmail(String email) {
+	public Optional<Usuario> obterPorEmail(String email) {
 		return usuarioRepository.findByEmail(email);
 	}
 
 	// Criar um novo usuário
-	public Usuario criarUsuario(Usuario usuario) {
+	public Usuario criar(Usuario usuario) {
 		usuario.setAtivo(true);
 		usuario.setDataCriacao(LocalDateTime.now());
 		usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
@@ -75,7 +75,7 @@ public class UsuarioService implements UserDetailsService {
 	}
 
 	// Atualizar um usuário existente
-	public Usuario atualizarUsuario(Long id, Usuario usuario) {
+	public Usuario atualizar(Long id, Usuario usuario) {
 		if (usuarioRepository.existsById(id)) {
 			usuario.setId(id);
 			if (usuario.getSenha() != null) {
@@ -87,7 +87,7 @@ public class UsuarioService implements UserDetailsService {
 	}
 
 	// Deletar um usuário
-	public boolean deletarUsuario(Long id) {
+	public boolean deletar(Long id) {
 		if (usuarioRepository.existsById(id)) {
 			usuarioRepository.deleteById(id);
 			return true;

@@ -35,30 +35,30 @@ public class ImovelController {
 		    @RequestParam(required = false) String bairro,
 		    @RequestParam(required = false) String proprietario,
 		    @RequestParam(required = false) String cpfCnpj) {
-	    Page<Imovel> imoveis = imovelService.listarImoveis(pageable, tipo, rua, numero, bairro, proprietario, cpfCnpj);
+	    Page<Imovel> imoveis = imovelService.listar(pageable, tipo, rua, numero, bairro, proprietario, cpfCnpj);
 	    return ResponseEntity.ok(imoveis);
 	}
 
     @GetMapping("/{id}")
     public ResponseEntity<Imovel> obterImovel(@PathVariable Long id) {
-        Optional<Imovel> imovel = imovelService.obterImovelPorId(id);
+        Optional<Imovel> imovel = imovelService.obterPorId(id);
         return imovel.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<Imovel> criarImovel(@RequestBody Imovel imovel) {
-        Imovel novoImovel = imovelService.criarImovel(imovel);
+        Imovel novoImovel = imovelService.criar(imovel);
         return new ResponseEntity<>(novoImovel, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Imovel> atualizarImovel(@PathVariable Long id, @RequestBody Imovel imovel) {
-        Imovel imovelAtualizado = imovelService.atualizarImovel(id, imovel);
+        Imovel imovelAtualizado = imovelService.atualizar(id, imovel);
         return imovelAtualizado != null ? ResponseEntity.ok(imovelAtualizado) : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarImovel(@PathVariable Long id) {
-        return imovelService.deletarImovel(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+        return imovelService.deletar(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }

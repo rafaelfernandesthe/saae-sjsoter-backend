@@ -22,33 +22,33 @@ public class PagamentoController {
     // Listar todos os pagamentos
     @GetMapping
     public List<Pagamento> listarPagamentos() {
-        return pagamentoService.listarPagamentos();
+        return pagamentoService.listar();
     }
 
     // Obter pagamento por ID
     @GetMapping("/{id}")
     public ResponseEntity<Pagamento> obterPagamento(@PathVariable Long id) {
-        Optional<Pagamento> pagamento = pagamentoService.obterPagamentoPorId(id);
+        Optional<Pagamento> pagamento = pagamentoService.obterPorId(id);
         return pagamento.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // Criar um novo pagamento
     @PostMapping
     public ResponseEntity<Pagamento> criarPagamento(@RequestBody Pagamento pagamento) {
-        Pagamento novoPagamento = pagamentoService.criarPagamento(pagamento);
+        Pagamento novoPagamento = pagamentoService.criar(pagamento);
         return new ResponseEntity<>(novoPagamento, HttpStatus.CREATED);
     }
 
     // Atualizar um pagamento existente
     @PutMapping("/{id}")
     public ResponseEntity<Pagamento> atualizarPagamento(@PathVariable Long id, @RequestBody Pagamento pagamento) {
-        Pagamento pagamentoAtualizado = pagamentoService.atualizarPagamento(id, pagamento);
+        Pagamento pagamentoAtualizado = pagamentoService.atualizar(id, pagamento);
         return pagamentoAtualizado != null ? ResponseEntity.ok(pagamentoAtualizado) : ResponseEntity.notFound().build();
     }
 
     // Deletar um pagamento por ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarPagamento(@PathVariable Long id) {
-        return pagamentoService.deletarPagamento(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+        return pagamentoService.deletar(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }

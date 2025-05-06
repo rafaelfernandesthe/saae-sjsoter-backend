@@ -13,13 +13,6 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    // Registrar novo usuário
-    @PostMapping("/register")
-    public ResponseEntity<?> registrar(@RequestBody Usuario usuario) {
-        String token = authService.registrarUsuario(usuario);
-        return ResponseEntity.ok("Usuário registrado com sucesso. Token: " + token);
-    }
-
     // Login e gerar token
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Usuario usuario) {
