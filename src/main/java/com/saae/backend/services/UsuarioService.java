@@ -9,6 +9,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -39,11 +40,11 @@ public class UsuarioService implements UserDetailsService {
 				.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado: " + email));
 
 		// Retorna um UserDetails com as credenciais do usuário
-		return new User(usuario.getEmail(), usuario.getSenha(), List.of());
+		return new User(usuario.getEmail(), usuario.getSenha(), List.of(new SimpleGrantedAuthority(usuario.getTipo().name())));
 	}
 
 	// Listar todos os usuários
-	@Cacheable(value = "usuariosPaginados", key = "T(String).valueOf(#pageable.pageNumber) + '-' + T(String).valueOf(#pageable.pageSize) + '-' + T(String).valueOf(#nome)")
+	@Cacheable(value = "usuariosPaginados", key = "T(String).valueOf(#pageable.pageNumber) + '-' + T(String).valueOf(#pageable.pageSize) + '-' + " + "T(String).valueOf(#nome ?: '')")
 	public Page<Usuario> listarUsuarios(Pageable pageable, String nome) {
 		return usuarioRepository.findAll((root, query, criteriaBuilder) -> {
 			var predicates = new ArrayList<Predicate>();

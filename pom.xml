@@ -91,17 +91,17 @@
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
-            <version>0.12.0</version> <!-- Certifique-se de usar a versão mais recente -->
+            <version>0.12.6</version> 
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-impl</artifactId>
-            <version>0.12.0</version> <!-- Certifique-se de usar a versão mais recente -->
+            <version>0.12.6</version> 
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-orgjson</artifactId>
-            <version>0.12.0</version> <!-- Certifique-se de usar a versão mais recente -->
+            <version>0.12.6</version> 
         </dependency>
 
         <!-- Dependência para validação (Bean Validation) -->
@@ -125,6 +125,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<jvmArguments>--add-exports java.base/sun.security.util=ALL-UNNAMED</jvmArguments>
+					<jvmArguments>--add-opens java.base/java.io=ALL-UNNAMED</jvmArguments>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>

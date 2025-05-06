@@ -1,9 +1,11 @@
 package com.saae.backend.security;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Optional;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -51,12 +53,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             Optional<UserDetails> usuarioOptional = Optional.of(userDetailsService.loadUserByUsername(username));
 
             if (usuarioOptional.isPresent()) {
-                var usuario = usuarioOptional.get();
+                UserDetails usuario = usuarioOptional.get();
                 
                 // Validar o token JWT
                 if (jwtUtil.validarToken(jwt, usuario)) {
-                    // Criar a autenticação com base no usuário autenticado
-                    var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+                    var authentication = new UsernamePasswordAuthenticationToken(usuario, usuario.getPassword(), usuario.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                     // Definir a autenticação no contexto de segurança

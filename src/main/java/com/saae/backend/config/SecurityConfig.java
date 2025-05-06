@@ -36,8 +36,7 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
-                	.requestMatchers("/**").permitAll()
-                    //.requestMatchers("/auth/**", "/imoveis/**").permitAll()  // Permite acessar sem autenticação
+                    .requestMatchers("/auth/**").permitAll()  // Permite acessar sem autenticação
                     .anyRequest().authenticated()  // Exige autenticação para qualquer outra requisição
             )
             .exceptionHandling(exceptionHandling ->
