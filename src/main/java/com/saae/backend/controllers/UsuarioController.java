@@ -52,12 +52,14 @@ public class UsuarioController {
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> atualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
         Usuario usuarioAtualizado = usuarioService.atualizar(id, usuario);
+        usuarioService.limparCache();
         return usuarioAtualizado != null ? ResponseEntity.ok(usuarioAtualizado) : ResponseEntity.notFound().build();
     }
 
     // Endpoint para deletar um usuário
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarUsuario(@PathVariable Long id) {
+    	usuarioService.limparCache();
         return usuarioService.deletar(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }

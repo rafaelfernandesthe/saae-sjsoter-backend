@@ -48,17 +48,20 @@ public class ImovelController {
     @PostMapping
     public ResponseEntity<Imovel> criarImovel(@RequestBody Imovel imovel) {
         Imovel novoImovel = imovelService.criar(imovel);
+        imovelService.limparCache();
         return new ResponseEntity<>(novoImovel, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Imovel> atualizarImovel(@PathVariable Long id, @RequestBody Imovel imovel) {
         Imovel imovelAtualizado = imovelService.atualizar(id, imovel);
+        imovelService.limparCache();
         return imovelAtualizado != null ? ResponseEntity.ok(imovelAtualizado) : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarImovel(@PathVariable Long id) {
+    	imovelService.limparCache();
         return imovelService.deletar(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }

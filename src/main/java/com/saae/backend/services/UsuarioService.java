@@ -78,9 +78,11 @@ public class UsuarioService implements UserDetailsService {
 	public Usuario atualizar(Long id, Usuario usuario) {
 		if (usuarioRepository.existsById(id)) {
 			usuario.setId(id);
-			if (usuario.getSenha() != null) {
-				usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-			}
+			usuarioRepository.findById(id).ifPresent(existingUsuario -> {
+				usuario.setDataCriacao(existingUsuario.getDataCriacao());
+				usuario.setDataUltimoLogin(existingUsuario.getDataUltimoLogin());
+				usuario.setSenha(existingUsuario.getSenha());
+			});
 			return usuarioRepository.save(usuario);
 		}
 		return null;

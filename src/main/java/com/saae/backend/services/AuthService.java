@@ -26,7 +26,7 @@ public class AuthService {
     // Autenticar e gerar JWT
     public String autenticarUsuario(String email, String senha) {
         // Buscar o usuário pelo email
-        Usuario usuario = usuarioRepository.findByEmail(email)
+        Usuario usuario = usuarioRepository.findByEmailAtivo(email)
                 .orElseThrow(() -> new BadCredentialsException("Credenciais inválidas")); // Lança exceção se não encontrar o usuário
 
         // Verificar se a senha corresponde à senha armazenada
