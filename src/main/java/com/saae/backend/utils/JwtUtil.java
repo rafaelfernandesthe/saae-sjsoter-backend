@@ -34,7 +34,9 @@ public class JwtUtil {
 
 	// Gera um token JWT para o usuário
 	public String gerarToken(Usuario usuario) {
-		return Jwts.builder().subject(usuario.getEmail()) // O email do usuário é o "subject" do token
+		return Jwts.builder().subject(usuario.getEmail()) 
+				.claim("nome", usuario.getNome()) 
+	            .claim("perfil", usuario.getTipo())
 				.issuedAt(new Date()) // Data de emissão
 				.expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) // Expiração configurada
 				.signWith(getSigningKey()) // Algoritmo e chave secreta

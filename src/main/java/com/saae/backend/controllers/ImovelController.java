@@ -28,7 +28,6 @@ public class ImovelController {
     @Autowired
     private ImovelService imovelService;
 
-    //@Cacheable(value = "imoveis", key = "#pageable.pageNumber")
     @GetMapping
 	public ResponseEntity<Page<Imovel>> listarImoveis(Pageable pageable, @RequestParam(required = false) String tipo,
 		    @RequestParam(required = false) String rua,

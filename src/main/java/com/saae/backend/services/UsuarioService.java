@@ -1,17 +1,26 @@
 package com.saae.backend.services;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.saae.backend.entities.Usuario;
 import com.saae.backend.repositories.UsuarioRepository;
+
+import jakarta.persistence.criteria.Predicate;
 
 @Service
 public class UsuarioService implements UserDetailsService {
@@ -34,8 +43,16 @@ public class UsuarioService implements UserDetailsService {
 	}
 
 	// Listar todos os usuários
-	public List<Usuario> listarUsuarios() {
-		return usuarioRepository.findAll();
+	@Cacheable(value = "usuariosPaginados", key = "T(String).valueOf(#pageable.pageNumber) + '-' + T(String).valueOf(#pageable.pageSize) + '-' + T(String).valueOf(#nome)")
+	public Page<Usuario> listarUsuarios(Pageable pageable, String nome) {
+		return usuarioRepository.findAll((root, query, criteriaBuilder) -> {
+			var predicates = new ArrayList<Predicate>();
+			if (StringUtils.hasText(nome)) {
+				predicates.add(criteriaBuilder.like(root.get("nome"), "%" + nome + "%"));
+			}
+
+			return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+		}, pageable);
 	}
 
 	// Obter um usuário por ID
@@ -50,7 +67,8 @@ public class UsuarioService implements UserDetailsService {
 
 	// Criar um novo usuário
 	public Usuario criarUsuario(Usuario usuario) {
-		// Criptografar a senha antes de salvar
+		usuario.setAtivo(true);
+		usuario.setDataCriacao(LocalDateTime.now());
 		usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
 		return usuarioRepository.save(usuario);
 	}
@@ -59,7 +77,6 @@ public class UsuarioService implements UserDetailsService {
 	public Usuario atualizarUsuario(Long id, Usuario usuario) {
 		if (usuarioRepository.existsById(id)) {
 			usuario.setId(id);
-			// Se a senha for informada, criptografar antes de salvar
 			if (usuario.getSenha() != null) {
 				usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
 			}
@@ -75,5 +92,10 @@ public class UsuarioService implements UserDetailsService {
 			return true;
 		}
 		return false;
+	}
+	
+	@CacheEvict(value = "usuariosPaginados", allEntries = true)
+	public void limparCache() {
+	    
 	}
 }

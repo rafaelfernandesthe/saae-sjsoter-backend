@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ public class ImovelService {
 	@Autowired
 	private ImovelRepository imovelRepository;
 
+	@Cacheable(value = "imoveisPaginados", key = "T(String).valueOf(#pageable.pageNumber) + '-' + T(String).valueOf(#pageable.pageSize) + '-' + T(String).valueOf(#tipo) + '-' + T(String).valueOf(#rua) + '-' + T(String).valueOf(#numero) + '-' + T(String).valueOf(#bairro) + '-' + T(String).valueOf(#proprietario) + '-' + T(String).valueOf(#cpfCnpj)")
 	public Page<Imovel> listarImoveis(Pageable pageable, String tipo, String rua, String numero, String bairro,
 			String proprietario, String cpfCnpj) {
 		return imovelRepository.findAll((root, query, criteriaBuilder) -> {

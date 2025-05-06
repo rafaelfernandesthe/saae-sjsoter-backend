@@ -48,17 +48,15 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- Banco de dados H2 (para testes e desenvolvimento) -->
-<!--        <dependency>-->
-<!--            <groupId>com.h2database</groupId>-->
-<!--            <artifactId>h2</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
-
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
 			<scope>runtime</scope>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.github.ben-manes.caffeine</groupId>
+		    <artifactId>caffeine</artifactId>
 		</dependency>
 
         <!-- Dependências de Teste (JUnit, Spring Test, etc.) -->
@@ -126,6 +124,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<jvmArguments>--add-exports java.base/sun.security.util=ALL-UNNAMED</jvmArguments>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>

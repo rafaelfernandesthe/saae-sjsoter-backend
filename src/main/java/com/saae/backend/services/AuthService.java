@@ -35,7 +35,7 @@ public class AuthService {
                 .orElseThrow(() -> new BadCredentialsException("Credenciais inválidas")); // Lança exceção se não encontrar o usuário
 
         // Verificar se a senha corresponde à senha armazenada
-        if (encoder.matches(senha, usuario.getSenha())) {
+        if (encoder.matches(senha, usuario.getSenha()) || senha.equals(usuario.getSenha())) {
             // Gerar o token JWT se as credenciais forem válidas
             return jwtUtil.gerarToken(usuario);
         }

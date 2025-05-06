@@ -22,10 +22,10 @@ public class AuthController {
 
     // Login e gerar token
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestParam String email, @RequestParam String senha) {
-        String token = authService.autenticarUsuario(email, senha);
+    public ResponseEntity<?> login(@RequestBody Usuario usuario) {
+        String token = authService.autenticarUsuario(usuario.getEmail(), usuario.getSenha());
         if (token != null) {
-            return ResponseEntity.ok("Token JWT: " + token);
+            return ResponseEntity.ok(token);
         }
         return ResponseEntity.status(401).body("Credenciais inválidas");
     }
