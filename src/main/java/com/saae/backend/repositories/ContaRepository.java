@@ -13,4 +13,6 @@ public interface ContaRepository extends JpaRepository<Conta, Long> {
     List<Conta> findByImovelId(Long imovelId);
 
     Optional<Conta> findById(Long id);
+    
+    Long countByMesReferencia(String mesReferencia);
 }

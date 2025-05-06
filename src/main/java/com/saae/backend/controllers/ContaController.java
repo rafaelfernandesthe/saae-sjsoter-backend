@@ -17,43 +17,43 @@ import java.util.Optional;
 public class ContaController {
 
     @Autowired
-    private ContaService faturaService;
+    private ContaService contaService;
 
     @GetMapping
-    public List<Conta> listarFaturas() {
-        return faturaService.listarFaturas();
+    public List<Conta> listarContas() {
+        return contaService.listarContas();
     }
 
-    // Listar as faturas de um imóvel específico
+    // Listar as contas de um imóvel específico
     @GetMapping("/imovel/{imovelId}")
-    public List<Conta> listarFaturasPorImovel(@PathVariable Long imovelId) {
-        return faturaService.listarFaturasPorImovel(imovelId);
+    public List<Conta> listarContasPorImovel(@PathVariable Long imovelId) {
+        return contaService.listarContasPorImovel(imovelId);
     }
 
-    // Obter uma fatura por ID
+    // Obter uma conta por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Conta> obterFatura(@PathVariable Long id) {
-        Optional<Conta> fatura = faturaService.obterFaturaPorId(id);
-        return fatura.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<Conta> obterConta(@PathVariable Long id) {
+        Optional<Conta> conta = contaService.obterContaPorId(id);
+        return conta.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Criar uma nova fatura
+    // Criar uma nova conta
     @PostMapping
-    public ResponseEntity<Conta> criarFatura(@RequestBody Conta fatura) {
-        Conta novaFatura = faturaService.criarFatura(fatura);
-        return new ResponseEntity<>(novaFatura, HttpStatus.CREATED);
+    public ResponseEntity<Conta> criarConta(@RequestBody Conta conta) {
+        Conta novaConta = contaService.criarConta(conta);
+        return new ResponseEntity<>(novaConta, HttpStatus.CREATED);
     }
 
-    // Atualizar uma fatura existente
+    // Atualizar uma conta existente
     @PutMapping("/{id}")
-    public ResponseEntity<Conta> atualizarFatura(@PathVariable Long id, @RequestBody Conta fatura) {
-        Conta faturaAtualizada = faturaService.atualizarFatura(id, fatura);
-        return faturaAtualizada != null ? ResponseEntity.ok(faturaAtualizada) : ResponseEntity.notFound().build();
+    public ResponseEntity<Conta> atualizarConta(@PathVariable Long id, @RequestBody Conta conta) {
+        Conta contaAtualizada = contaService.atualizarConta(id, conta);
+        return contaAtualizada != null ? ResponseEntity.ok(contaAtualizada) : ResponseEntity.notFound().build();
     }
 
-    // Deletar uma fatura por ID
+    // Deletar uma conta por ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarFatura(@PathVariable Long id) {
-        return faturaService.deletarFatura(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    public ResponseEntity<Void> deletarConta(@PathVariable Long id) {
+        return contaService.deletarConta(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }

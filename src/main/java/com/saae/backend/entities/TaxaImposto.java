@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.saae.backend.entities.enums.StatusTaxaImposto;
-import com.saae.backend.entities.enums.TipoBeneficio;
+import com.saae.backend.entities.enums.TipoTaxaImposto;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -33,7 +33,7 @@ public class TaxaImposto {
 	private String descricao;
 
 	@Enumerated(EnumType.STRING)
-	private TipoBeneficio tipo;
+	private TipoTaxaImposto tipo;
 
 	private BigDecimal valorAplicado;
 
