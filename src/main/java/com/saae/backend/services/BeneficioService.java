@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.saae.backend.entities.Beneficio;
+import com.saae.backend.entities.enums.StatusBeneficio;
 import com.saae.backend.repositories.BeneficioRepository;
 
 @Service
@@ -24,6 +25,7 @@ public class BeneficioService {
 	}
 
 	public Beneficio criar(Beneficio beneficio) {
+		beneficio.setStatus(StatusBeneficio.ATIVO);
 		return beneficioRepository.save(beneficio);
 	}
 

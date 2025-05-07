@@ -15,7 +15,7 @@ public class ContasBatch {
 	@Autowired
 	private ContaService contaService;
 	
-	@Scheduled(cron = "0 5 0 1-5 * ?")
+	@Scheduled(cron = "0 5 0 1-5 * ?")// a 00:05 do dia 1 ao 5 de cada mês
 	public void gerarContas() {
 		log.info("Gerando contas...");
 		boolean temFaturaGerada = contaService.temContaGerada(LocalDateTime.now());

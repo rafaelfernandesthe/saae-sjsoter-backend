@@ -39,9 +39,10 @@ public class Beneficio {
 	@Column(name = "desconto_aplicado")
 	private BigDecimal descontoAplicado;
 
+	@Enumerated(EnumType.STRING)
 	private StatusBeneficio status;
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "beneficios")
 	private List<Imovel> imoveis;
 
 }

@@ -26,7 +26,7 @@ public class BeneficioController {
 	private BeneficioService beneficioService;
 
 	@GetMapping
-	public ResponseEntity<List<Beneficio>> listarImoveis() {
+	public ResponseEntity<List<Beneficio>> listar() {
 		return ResponseEntity.ok(beneficioService.listar());
 	}
 

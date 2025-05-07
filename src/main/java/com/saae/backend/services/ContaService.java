@@ -80,21 +80,28 @@ public class ContaService {
 		Imovel imovel = conta.getImovel();
 		
 		imovel.getTaxasImpostos().stream().filter(t -> TipoTaxaImposto.VALOR.equals(t.getTipo())).forEach(taxaImposto -> {
-			conta.getValorTotal().add(taxaImposto.getValorAplicado());
+			BigDecimal valorTotal = conta.getValorTotal();
+			valorTotal = valorTotal.add(taxaImposto.getValorAplicado());
 		});
 		imovel.getTaxasImpostos().stream().filter(t -> TipoTaxaImposto.PERCENTUAL.equals(t.getTipo())).forEach(taxaImposto -> {
-			conta.getValorTotal().add(taxaImposto.getValorAplicado());
+			BigDecimal valorTotal = conta.getValorTotal();
+			BigDecimal acrescimo = valorTotal.multiply(taxaImposto.getValorAplicado()).divide(BigDecimal.valueOf(100));
+	        valorTotal = valorTotal.add(acrescimo);
 		});
 		
 		if(conta.getValorTotal().compareTo(new BigDecimal(0)) <= 0) {
+			conta.setValorTotal(new BigDecimal(0));
 			return;
 		}
 		
 		imovel.getBeneficios().stream().filter(t -> TipoBeneficio.VALOR.equals(t.getTipo())).forEach(beneficio -> {
-			conta.getValorTotal().add(beneficio.getDescontoAplicado().negate());
+			BigDecimal valorTotal = conta.getValorTotal();
+			valorTotal = valorTotal.add(beneficio.getDescontoAplicado().negate());
 		});
 		imovel.getBeneficios().stream().filter(t -> TipoBeneficio.PERCENTUAL.equals(t.getTipo())).forEach(beneficio -> {
-			conta.getValorTotal().add(beneficio.getDescontoAplicado().negate());
+			BigDecimal valorTotal = conta.getValorTotal();
+			BigDecimal desconto = valorTotal.multiply(beneficio.getDescontoAplicado()).divide(BigDecimal.valueOf(100));
+	        valorTotal = valorTotal.subtract(desconto);
 		});
 		
 	}

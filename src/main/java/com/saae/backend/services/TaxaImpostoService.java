@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.saae.backend.entities.TaxaImposto;
+import com.saae.backend.entities.enums.StatusTaxaImposto;
 import com.saae.backend.repositories.TaxaImpostoRepository;
 
 @Service
@@ -24,6 +25,7 @@ public class TaxaImpostoService {
 	}
 
 	public TaxaImposto criar(TaxaImposto taxaImposto) {
+		taxaImposto.setStatus(StatusTaxaImposto.ATIVO);
 		return taxaImpostoRepository.save(taxaImposto);
 	}
 

@@ -39,6 +39,7 @@ public class TaxaImposto {
 	@Column(name = "valor_aplicado")
 	private BigDecimal valorAplicado;
 
+	@Enumerated(EnumType.STRING)
 	private StatusTaxaImposto status;
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "taxasImpostos")

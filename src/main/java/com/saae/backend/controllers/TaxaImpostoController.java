@@ -19,14 +19,14 @@ import com.saae.backend.entities.TaxaImposto;
 import com.saae.backend.services.TaxaImpostoService;
 
 @RestController
-@RequestMapping("/taxaImposto")
+@RequestMapping("/taxasImpostos")
 public class TaxaImpostoController {
 
 	@Autowired
 	private TaxaImpostoService taxaImpostoService;
 
 	@GetMapping
-	public ResponseEntity<List<TaxaImposto>> listarImoveis() {
+	public ResponseEntity<List<TaxaImposto>> listar() {
 		return ResponseEntity.ok(taxaImpostoService.listar());
 	}
 
