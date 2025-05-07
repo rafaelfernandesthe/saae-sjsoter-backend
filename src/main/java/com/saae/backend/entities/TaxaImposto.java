@@ -6,6 +6,7 @@ import java.util.List;
 import com.saae.backend.entities.enums.StatusTaxaImposto;
 import com.saae.backend.entities.enums.TipoTaxaImposto;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -35,6 +36,7 @@ public class TaxaImposto {
 	@Enumerated(EnumType.STRING)
 	private TipoTaxaImposto tipo;
 
+	@Column(name = "valor_aplicado")
 	private BigDecimal valorAplicado;
 
 	private StatusTaxaImposto status;

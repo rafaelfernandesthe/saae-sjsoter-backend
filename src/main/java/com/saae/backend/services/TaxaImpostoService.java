@@ -36,6 +36,12 @@ public class TaxaImpostoService {
 	}
 
 	public boolean deletar(Long id) {
+		
+		//nao pode apagar a primeira taxa de imposto, deve existir pelo menos uma
+		if(Long.valueOf(1).equals(id)) {
+			return false;
+		}
+		
 		if (taxaImpostoRepository.existsById(id)) {
 			taxaImpostoRepository.deleteById(id);
 			return true;
