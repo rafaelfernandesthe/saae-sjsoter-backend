@@ -6,6 +6,7 @@ import java.util.List;
 import com.saae.backend.entities.enums.StatusBeneficio;
 import com.saae.backend.entities.enums.TipoBeneficio;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -34,7 +35,8 @@ public class Beneficio {
 
 	@Enumerated(EnumType.STRING)
 	private TipoBeneficio tipo;
-
+	
+	@Column(name = "desconto_aplicado")
 	private BigDecimal descontoAplicado;
 
 	private StatusBeneficio status;
